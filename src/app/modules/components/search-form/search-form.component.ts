@@ -1,4 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Moment } from 'moment';
@@ -17,7 +18,7 @@ export class SearchFormComponent implements OnInit {
 
   @Input()
   form: any;
-  
+
   timeout: ReturnType<typeof setTimeout> | undefined;
 
   options: string[] = [
@@ -51,7 +52,9 @@ export class SearchFormComponent implements OnInit {
   constructor(
     private territoryService: TerritoryService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private titleService: Title,
+    private metaService: Meta
   ) {}
 
   ngOnInit(): void {
@@ -69,6 +72,10 @@ export class SearchFormComponent implements OnInit {
         this.until = until;
         this.sort_by = sort_by;
 
+        this.titleService.setTitle("Testing head updates with angular object");
+        this.metaService.updateTag({ name: 'keywords', content: term });
+        this.metaService.updateTag({ name: 'robots', content: 'index,follow' });
+
         if(city) {
           if(Array.isArray(city)) {
             city.forEach(currCity => {
@@ -78,7 +85,7 @@ export class SearchFormComponent implements OnInit {
             this.findCityById(city);
           }
         }
-        
+
         this.termControl.setValue(term);
 
       })

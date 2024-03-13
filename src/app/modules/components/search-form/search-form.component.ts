@@ -75,11 +75,14 @@ export class SearchFormComponent implements OnInit {
         this.since = since;
         this.until = until;
         this.sort_by = sort_by;
-        // TODO: term == undefined na página inicial de busca, implementar condicional
+        // TODO: adicionar cidade e se possível período de tempo selecionado para a busca na descrição e ao título
         if (term !== undefined) {
+          // TITLE - Deve ser relevante para o conteúdo, ter menos de 70 caracteres e incluir as palavras-chave.
           let title_txt: string = 'Querido Diário - Resultados para a busca [' +  term + ']:';
           this.titleService.setTitle(title_txt);
+          // KEYWORDS - Inclua aqui as palavras-chave relevantes para o conteúdo da página.
           this.metaService.updateTag({ name: 'keywords', content: term });
+          // DESCRIPTION - Deve ser relevante para o conteúdo, menos de 160 caracteres e incluir as palavras-chave.
           let description_txt: string = 'Página com lista de resultados para a busca no Querido Diário para os seguintes termos: [' + term + ']';
           this.metaService.updateTag({ name: 'description', content: description_txt });
 

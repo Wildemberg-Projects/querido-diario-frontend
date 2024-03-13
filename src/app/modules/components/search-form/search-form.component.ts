@@ -59,12 +59,7 @@ export class SearchFormComponent implements OnInit {
     private metaService: Meta,
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document
-  ) {
-    const link: HTMLLinkElement = this.renderer.createElement('link');
-    link.setAttribute('rel', 'canonical');
-    this.renderer.appendChild(this.document.head, link);
-    link.setAttribute('href', this.document.URL);
-  }
+  ) {}
 
   ngOnInit(): void {
     this.filteredOptions = this.termControl.valueChanges.pipe(
@@ -87,6 +82,13 @@ export class SearchFormComponent implements OnInit {
           this.metaService.updateTag({ name: 'keywords', content: term });
           let description_txt: string = 'Página com lista de resultados para a busca no Querido Diário para os seguintes termos: [' + term + ']';
           this.metaService.updateTag({ name: 'description', content: description_txt });
+
+          // Adiciona TAG <link> à página de maneira dinâmica, incluindo o link completo para a página com os termos fornecidos para a busca
+          const link: HTMLLinkElement = this.renderer.createElement('link');
+          link.setAttribute('rel', 'canonical');
+          this.renderer.appendChild(this.document.head, link);
+          link.setAttribute('href', this.document.URL);
+
         }
         let robots_txt: string = 'index,follow';
         this.metaService.updateTag({ name: 'robots', content: robots_txt });

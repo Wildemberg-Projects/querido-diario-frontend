@@ -72,7 +72,7 @@ export class SearchFormComponent implements OnInit {
         this.until = until;
         this.sort_by = sort_by;
         // TODO: term == undefined na página inicial de busca, implementar condicional
-        if term != undefined {
+        if (term !== undefined) {
           let title_txt: string = 'Querido Diário - Resultados para a busca [' +  term + ']:';
           this.titleService.setTitle(title_txt);
           this.metaService.updateTag({ name: 'keywords', content: term });

@@ -8,22 +8,42 @@
     <url>
         <loc>https://queridodiario.ok.org.br/tecnologia</loc>
         <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
     </url>
     <url>
         <loc>https://queridodiario.ok.org.br/pesquisa?term=term</loc>
         <changefreq>daily</changefreq>
+        <priority>0.9</priority>
     </url>
     <url>
         <loc>https://queridodiario.ok.org.br/sobre</loc>
         <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
     </url>
     <url>
         <loc>https://queridodiario.ok.org.br/educacao</loc>
         <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://queridodiario.ok.org.br/educacao/busca</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://queridodiario.ok.org.br/educacao/sobre</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
     </url>
     <url>
         <loc>https://queridodiario.ok.org.br/blog</loc>
         <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://queridodiario.ok.org.br/apoie</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
     </url>
     <!-- Adicionando pdfs para teste de indexação e comportamento na lista de resultados dos buscadores. -->
     <url>
@@ -35,15 +55,18 @@
         <loc>https://querido-diario.nyc3.cdn.digitaloceanspaces.com/3106200/2007-05-03/9fefed7185f514e1a94645d38b9bd1432a7d5eb6</loc>
         <lastmod>2024-03-07</lastmod>
         <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
     </url>
     <url>
         <loc>https://querido-diario.nyc3.cdn.digitaloceanspaces.com/2103901/2018-10-11/a39217e5a83507f75e2750d9e66d0035ec755e2b.pdf</loc>
         <lastmod>2024-03-07</lastmod>
         <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
     </url>
     <url>
         <loc>https://querido-diario.nyc3.cdn.digitaloceanspaces.com/4205407/2019-10-18/118aecb85e355ac01660d29916bfd172971b22df.pdf</loc>
         <lastmod>2024-03-07</lastmod>
         <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
     </url>
 </urlset>

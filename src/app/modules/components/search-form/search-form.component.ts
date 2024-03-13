@@ -62,10 +62,12 @@ export class SearchFormComponent implements OnInit {
       startWith(''),
       map((value) => this._filterTerms(value))
     );
+    console.log(">>> @ngOnInit()"); // Exibe o título atual no console
 
     this.subscriptions.push(
       this.route.queryParams.subscribe((params) => {
         const { term, city, since, until, sort_by } = params;
+        console.log(">>> @subscriptions"); // Exibe o título atual no console
         this.territory = city;
         this.selectedCities = [];
         this.since = since;
@@ -75,7 +77,13 @@ export class SearchFormComponent implements OnInit {
         this.titleService.setTitle("Testing head updates with angular object");
         this.metaService.updateTag({ name: 'keywords', content: term });
         this.metaService.updateTag({ name: 'robots', content: 'index,follow' });
-
+        this.metaService.updateTag({ name: 'description', content: "Este é um teste da descrição da página de resultados do Querido Diário" });
+        console.log("Título da página:"); // Exibe o título atual no console
+        console.log(this.titleService.getTitle()); // Exibe o título atual no console
+        console.log("Termos da busca:");
+        console.log(this.metaService.getTag('name=keywords')); // Exibe a meta tag 'keywords' atual no console
+        console.log("Descrição detalhada do conteúdo da página:");
+        console.log(this.metaService.getTag('name=description')); // Exibe a meta tag 'description' atual no console
         if(city) {
           if(Array.isArray(city)) {
             city.forEach(currCity => {

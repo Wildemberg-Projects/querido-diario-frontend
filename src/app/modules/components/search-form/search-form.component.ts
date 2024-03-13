@@ -71,14 +71,16 @@ export class SearchFormComponent implements OnInit {
         this.since = since;
         this.until = until;
         this.sort_by = sort_by;
-
-        let title_txt: string = 'Querido Diário - Resultados para a busca [' +  term + ']:';
-        this.titleService.setTitle(title_txt);
-        this.metaService.updateTag({ name: 'keywords', content: term });
+        // TODO: term == undefined na página inicial de busca, implementar condicional
+        if term != undefined {
+          let title_txt: string = 'Querido Diário - Resultados para a busca [' +  term + ']:';
+          this.titleService.setTitle(title_txt);
+          this.metaService.updateTag({ name: 'keywords', content: term });
+          let description_txt: string = 'Página com lista de resultados para a busca no Querido Diário para os seguintes termos: [' + term + ']';
+          this.metaService.updateTag({ name: 'description', content: description_txt });
+        }
         let robots_txt: string = 'index,follow';
         this.metaService.updateTag({ name: 'robots', content: robots_txt });
-        let description_txt: string = 'Resultados da busca para os termos: [ ' + term + ']';
-        this.metaService.updateTag({ name: 'description', content: description_txt });
 
         if(city) {
           if(Array.isArray(city)) {

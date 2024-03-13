@@ -58,6 +58,7 @@ export class SearchFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(">>> Initializing search-form component!"); // Exibe o título atual no console
     this.filteredOptions = this.termControl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterTerms(value))
@@ -74,10 +75,13 @@ export class SearchFormComponent implements OnInit {
         this.until = until;
         this.sort_by = sort_by;
 
-        this.titleService.setTitle("Testing head updates with angular object");
+        title_txt = "Querido Diário - Resultados para a busca [" +  term + "]:";
+        this.titleService.setTitle(title_txt);
         this.metaService.updateTag({ name: 'keywords', content: term });
-        this.metaService.updateTag({ name: 'robots', content: 'index,follow' });
-        this.metaService.updateTag({ name: 'description', content: "Este é um teste da descrição da página de resultados do Querido Diário" });
+        robots_txt = 'index,follow';
+        this.metaService.updateTag({ name: 'robots', content: robots_txt });
+        description_txt = "Resultados da busca para os termos: [ " + term + "]";
+        this.metaService.updateTag({ name: 'description', content: description_txt });
         console.log("Título da página:"); // Exibe o título atual no console
         console.log(this.titleService.getTitle()); // Exibe o título atual no console
         console.log("Termos da busca:");

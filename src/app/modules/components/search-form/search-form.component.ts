@@ -58,36 +58,28 @@ export class SearchFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(">>> Initializing search-form component!"); // Exibe o título atual no console
     this.filteredOptions = this.termControl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterTerms(value))
     );
-    console.log(">>> @ngOnInit()"); // Exibe o título atual no console
 
     this.subscriptions.push(
       this.route.queryParams.subscribe((params) => {
         const { term, city, since, until, sort_by } = params;
-        console.log(">>> @subscriptions"); // Exibe o título atual no console
         this.territory = city;
         this.selectedCities = [];
         this.since = since;
         this.until = until;
         this.sort_by = sort_by;
 
-        const title_txt: string = "Querido Diário - Resultados para a busca [" +  term + "]:";
+        let title_txt: string = 'Querido Diário - Resultados para a busca [' +  term + ']:';
         this.titleService.setTitle(title_txt);
         this.metaService.updateTag({ name: 'keywords', content: term });
-        const robots_txt: string = 'index,follow';
+        let robots_txt: string = 'index,follow';
         this.metaService.updateTag({ name: 'robots', content: robots_txt });
-        const description_txt: string =  "Resultados da busca para os termos: [ " + term + "]";
+        let description_txt: string = 'Resultados da busca para os termos: [ ' + term + ']';
         this.metaService.updateTag({ name: 'description', content: description_txt });
-        console.log("Título da página:"); // Exibe o título atual no console
-        console.log(this.titleService.getTitle()); // Exibe o título atual no console
-        console.log("Termos da busca:");
-        console.log(this.metaService.getTag('name=keywords')); // Exibe a meta tag 'keywords' atual no console
-        console.log("Descrição detalhada do conteúdo da página:");
-        console.log(this.metaService.getTag('name=description')); // Exibe a meta tag 'description' atual no console
+
         if(city) {
           if(Array.isArray(city)) {
             city.forEach(currCity => {

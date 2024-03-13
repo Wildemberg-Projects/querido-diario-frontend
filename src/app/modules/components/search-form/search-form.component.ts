@@ -7,6 +7,8 @@ import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Territory } from 'src/app/interfaces/territory';
 import { TerritoryService } from 'src/app/services/territory/territory.service';
+import { Renderer2, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-search-form',
@@ -54,8 +56,15 @@ export class SearchFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private titleService: Title,
-    private metaService: Meta
-  ) {}
+    private metaService: Meta,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
+  ) {
+    const link: HTMLLinkElement = this.renderer.createElement('link');
+    link.setAttribute('rel', 'canonical');
+    this.renderer.appendChild(this.document.head, link);
+    link.setAttribute('href', this.document.URL);
+  }
 
   ngOnInit(): void {
     this.filteredOptions = this.termControl.valueChanges.pipe(

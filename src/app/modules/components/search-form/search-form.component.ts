@@ -12,6 +12,8 @@ import { Renderer2, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { listGazetteCSV } from '../../pages/search/search.component';
 
+
+
 @Component({
   selector: 'app-search-form',
   templateUrl: './search-form.component.html',

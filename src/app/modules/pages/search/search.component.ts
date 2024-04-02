@@ -61,6 +61,8 @@ export class SearchComponent implements OnInit {
 
   gazetteResponse: GazetteResponse | null = null;
 
+  selectedGazettes: Gazette[] = [];
+
   pagination: Pagination = { itemsPerPage: 10, currentPage: 1 };
 
   level$: Observable<Level | null> = of(null);

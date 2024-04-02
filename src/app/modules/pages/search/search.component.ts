@@ -177,4 +177,12 @@ export class SearchComponent implements OnInit {
   formatText(text: string): string {
     return text.replace('\n', '<br />');
   }
+
+  selectExcerpts(text: string, data: string, territory: string) {
+    text = this.formatText(text);
+
+    console.log(text);
+    console.log(data);
+    console.log(territory);
+  }
 }

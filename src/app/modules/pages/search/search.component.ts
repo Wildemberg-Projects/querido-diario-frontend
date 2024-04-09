@@ -294,7 +294,8 @@ export class SearchComponent implements OnInit {
     let buttonDownloadCsv = document.querySelector('.btn-download') as HTMLButtonElement
     let checkFather = document.querySelector('#father') as HTMLInputElement
 
-    for (let i = 0; i < listCheckBox.length; i++) {
+    
+    for(let i=0; i<listCheckBox.length; i++){
       let box = listCheckBox[i] as HTMLInputElement
 
       if (checkFather.checked) {

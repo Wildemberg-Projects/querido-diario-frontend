@@ -88,7 +88,7 @@
           <button class="btn-download" (click)="downloadCSV()"
             name="botaoDownloadCSV">
             <mat-icon>cloud_download</mat-icon>
-            <span class="text-white">Baixar Excertos Selecionados
+            <span class="text-white">Baixar Selecionados
               <strong></strong></span>
           </button>
 
@@ -101,53 +101,51 @@
 
         </div>
 
-        <div class="gazette-responses">
+        <pagination-template class="gazette"
+          #p="paginationApi"
+          *ngFor="
+          let gazette of gazetteResponse.gazettes
+            | paginate
+              : {
+                  itemsPerPage: pagination.itemsPerPage,
+                  currentPage: pagination.currentPage,
+                  totalItems: gazetteResponse.total_gazettes
+                }">
+          <div class="checkbox-excerpts">
+            <input
+              type="checkbox"
+              (change)="selectExcerpts(gazette.territory_name, gazette.excerpts[0], gazette.date, gazette.edition,  gazette.is_extra_edition, gazette.downloads[0].value, gazette.downloads[1].value)" />
+          </div>
+          <div fxLayout="column" class="bg-white-2 result color-purple-1"
+            fxLayoutGap="22px">
+            <ng-container *ngFor="let text of gazette.excerpts">
+              <div [innerHTML]="formatText(text)" class="typo-inner"></div>
+            </ng-container>
+            <div
+              fxLayout="row"
+              fxLayout.xs="column"
+              fxLayoutAlign="space-between">
+              <p [style.paddingTop]="'16px'">
+                {{ gazette.date }} •
+                <a [href]="gazette.url" target="_blank"><span
+                    class="color-purple-3">{{
+                    gazette.territory_name
+                    }}
+                    ({{
+                    gazette.state_code
+                    }})
+                  </span>
+                </a>
+              </p>
+              <app-select
+                [style]="'secondary'"
+                (onSelected)="openFile($event)"
+                [options]="gazette.downloads"
+                [label]="'Baixar diário oficial'"></app-select>
+            </div>
+          </div>
+        </pagination-template>
 
-          <pagination-template class="gazette"
-            #p="paginationApi"
-            *ngFor="
-            let gazette of gazetteResponse.gazettes
-              | paginate
-                : {
-                    itemsPerPage: pagination.itemsPerPage,
-                    currentPage: pagination.currentPage,
-                    totalItems: gazetteResponse.total_gazettes
-                  }">
-            <div class="checkbox-excerpts">
-              <input
-                type="checkbox"
-                (change)="selectExcerpts(gazette.territory_name, gazette.excerpts[0], gazette.date, gazette.edition,  gazette.is_extra_edition, gazette.downloads[0].value, gazette.downloads[1].value)" />
-            </div>
-            <div fxLayout="column" class="bg-white-2 result color-purple-1"
-              fxLayoutGap="22px">
-              <ng-container *ngFor="let text of gazette.excerpts">
-                <div [innerHTML]="formatText(text)" class="typo-inner"></div>
-              </ng-container>
-              <div
-                fxLayout="row"
-                fxLayout.xs="column"
-                fxLayoutAlign="space-between">
-                <p [style.paddingTop]="'16px'">
-                  {{ gazette.date }} •
-                  <a [href]="gazette.url" target="_blank"><span
-                      class="color-purple-3">{{
-                      gazette.territory_name
-                      }}
-                      ({{
-                      gazette.state_code
-                      }})
-                    </span>
-                  </a>
-                </p>
-                <app-select
-                  [style]="'secondary'"
-                  (onSelected)="openFile($event)"
-                  [options]="gazette.downloads"
-                  [label]="'Baixar diário oficial'"></app-select>
-              </div>
-            </div>
-          </pagination-template>
-        </div>
         <div fxLayout="row" fxFlexAlign="center" class="pagination-area">
           <a class="pagination-first-page" *ngIf="pagination.currentPage > 1">
             <mat-icon

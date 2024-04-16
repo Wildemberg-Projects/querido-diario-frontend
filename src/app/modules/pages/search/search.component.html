@@ -115,7 +115,7 @@
             <input
               type="checkbox"
               [checked]="isGazzeteSelected(gazette)"
-              (change)="selectExcerpts(gazette.territory_name, gazette.excerpts[0], gazette.date, gazette.edition,  gazette.is_extra_edition, gazette.downloads[0].value, gazette.downloads[1].value)" />
+              (change)="selectExcerpts(gazette.territory_name, gazette.state_code, gazette.excerpts[0], gazette.date,  gazette.is_extra_edition, gazette.downloads[0].value, gazette.downloads[1].value)" />
           </div>
           <div fxLayout="column" class="bg-white-2 result color-purple-1"
             fxLayoutGap="22px">

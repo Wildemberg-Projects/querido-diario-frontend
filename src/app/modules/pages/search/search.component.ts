@@ -240,7 +240,7 @@ export class SearchComponent implements OnInit {
       if (listGazetteCSV.length == 0) {
         textButtonDownloadCsv.innerText = ``;
         buttonDownloadCsv?.setAttribute('style', 'background-color: rgba(245, 232, 233, 0.4);')
-
+        cont -=1;
       } else {
         textButtonDownloadCsv.innerText = `(${listGazetteCSV.length})`;
       }

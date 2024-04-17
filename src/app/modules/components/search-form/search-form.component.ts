@@ -1,4 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Moment } from 'moment';
@@ -7,6 +8,8 @@ import { map, startWith } from 'rxjs/operators';
 import { Territory } from 'src/app/interfaces/territory';
 import { TerritoryService } from 'src/app/services/territory/territory.service';
 import { listGazetteCSV } from '../../pages/search/search.component';
+import { Renderer2, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-search-form',
@@ -18,7 +21,7 @@ export class SearchFormComponent implements OnInit {
 
   @Input()
   form: any;
-  
+
   timeout: ReturnType<typeof setTimeout> | undefined;
 
   options: string[] = [
@@ -52,7 +55,11 @@ export class SearchFormComponent implements OnInit {
   constructor(
     private territoryService: TerritoryService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private titleService: Title,
+    private metaService: Meta,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
   ) {}
 
   ngOnInit(): void {
@@ -69,7 +76,49 @@ export class SearchFormComponent implements OnInit {
         this.since = since;
         this.until = until;
         this.sort_by = sort_by;
+        // TODO: adicionar cidade e se possível período de tempo selecionado para a busca na descrição e ao título
+        // Página de resultados da busca:
+        if (term !== undefined) {
+          // TITLE - Deve ser relevante para o conteúdo, ter menos de 70 caracteres e incluir as palavras-chave.
+          let title_txt: string = 'Querido Diário - Resultados para a busca [' +  term + ']:';
+          this.titleService.setTitle(title_txt);
+          // KEYWORDS - Inclua aqui as palavras-chave relevantes para o conteúdo da página.
+          let terms = 'busca, pesquisa, querido diário, diários oficiais municipais, Brasil, transparência, governança, ' + term;
+          this.metaService.updateTag({ name: 'keywords', content: term });
+          // DESCRIPTION - Deve ser relevante para o conteúdo, menos de 160 caracteres e incluir as palavras-chave.
+          let description_txt: string = 'Resultados para a busca no Querido Diário para os termos: [' + term + ']';
+          this.metaService.updateTag({ name: 'description', content: description_txt });
 
+          // Adiciona TAG <link> à página de maneira dinâmica, incluindo o link completo para a página com os termos fornecidos para a busca
+          const link: HTMLLinkElement = this.renderer.createElement('link');
+          link.setAttribute('rel', 'canonical');
+          this.renderer.appendChild(this.document.head, link);
+          link.setAttribute('href', this.document.URL);
+          // Configura os robôs para indexarem esta página, que contém os resultados
+          let robots_txt: string = 'index,follow';
+          this.metaService.updateTag({ name: 'robots', content: robots_txt });
+        }
+        // Página inicial da pesquisa:
+        else {
+          // TITLE - Deve ser relevante para o conteúdo, ter menos de 70 caracteres e incluir as palavras-chave.
+          let title_txt: string = 'Querido Diário - Pesquise nos Diários Oficiais municipais do Brasil';
+          this.titleService.setTitle(title_txt);
+          // KEYWORDS - Inclua aqui as palavras-chave relevantes para o conteúdo da página, separadas por vírgula.
+          this.metaService.updateTag({ name: 'keywords', content: 'busca, pesquisa, querido diário, diários oficiais municipais, Brasil, transparência, governança' });
+          // DESCRIPTION - Deve ser relevante para o conteúdo, menos de 160 caracteres e incluir as palavras-chave.
+          let description_txt: string = 'Página para realização de busca no Querido Diário';
+          this.metaService.updateTag({ name: 'description', content: description_txt });
+          // Adiciona TAG <link> à página de maneira dinâmica, incluindo o link completo para a página com os termos fornecidos para a busca
+          const link: HTMLLinkElement = this.renderer.createElement('link');
+          link.setAttribute('rel', 'canonical');
+          this.renderer.appendChild(this.document.head, link);
+          link.setAttribute('href', this.document.URL);
+          // Configura os robôs para não indexarem esta página inicial de busca que não contém resultados
+          let robots_txt: string = 'noindex,nofollow';
+          this.metaService.updateTag({ name: 'robots', content: robots_txt });
+        }
+
+        // TODO: incluir a(s) cidade(s) selecionadas nas meta tags para SEO
         if(city) {
           if(Array.isArray(city)) {
             city.forEach(currCity => {
@@ -79,7 +128,7 @@ export class SearchFormComponent implements OnInit {
             this.findCityById(city);
           }
         }
-        
+
         this.termControl.setValue(term);
 
       })

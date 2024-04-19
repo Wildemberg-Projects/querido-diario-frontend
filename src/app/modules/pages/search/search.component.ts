@@ -100,9 +100,6 @@ export class SearchComponent implements OnInit {
     this.router.navigate(['/pesquisa'], {
       queryParams: { ...queryParams, page },
     });
-
-    let checkFather = document.querySelector('#father') as HTMLInputElement;
-    if (checkFather.checked){checkFather.checked = false;}
   }
 
   nextPage() {

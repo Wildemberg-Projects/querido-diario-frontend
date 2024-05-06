@@ -89,14 +89,6 @@
         </div>
 
         <div class="download-area">
-          <label class="seleciona-todos-label">
-            <input
-              type="checkbox"
-              id="father"
-              [checked]="isAllSelected()"
-              (change)="checkAll()" />Selecionar todos
-          </label>
-
           <button class="btn-download" (click)="downloadCSV()"
             name="botaoDownloadCSV">
             <mat-icon>cloud_download</mat-icon>
@@ -104,7 +96,13 @@
               <strong></strong></span>
           </button>
 
-
+          <label class="seleciona-todos-label">
+            <input
+              type="checkbox"
+              id="father"
+              [checked]="isAllSelected()"
+              (change)="checkAll()" />Todos
+          </label>
         </div>
 
         <pagination-template class="gazette"
@@ -128,7 +126,6 @@
             <ng-container *ngFor="let text of gazette.excerpts">
               <input
                 type="checkbox"
-                id="child"
                 class="selectExcerpts"
                 (change)="selectExcerpts(gazette.territory_name, text, gazette.date, gazette.edition, gazette.is_extra_edition, gazette.downloads[0].value, gazette.downloads[1].value)"
               />

@@ -228,6 +228,7 @@ export class SearchComponent implements OnInit {
       if (listGazetteCSV.length == 0)
         buttonDownloadCsv?.setAttribute('style', 'background-color: #FF8500; cursor: pointer;')
 
+
       listGazetteCSV.push(val)
 
       textButtonDownloadCsv.innerText = `(${listGazetteCSV.length})`;

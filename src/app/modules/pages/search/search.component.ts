@@ -215,28 +215,10 @@ export class SearchComponent implements OnInit {
     );
 
     if (indexOfSelectedGazette == -1) {
-      if (this.listCheckedSearchResults.length == 0)
-        buttonDownloadCsv?.setAttribute(
-          'style',
-          'background-color: #FF8500; cursor: pointer;'
-        );
-
       this.listCheckedSearchResults.push(selectedGazette);
-
-      textButtonDownloadCsv.innerText = `(${this.listCheckedSearchResults.length})`;
     } else {
       this.listCheckedSearchResults.splice(indexOfSelectedGazette, 1);
       checkboxSelectAll.checked = false;
-
-      if (this.listCheckedSearchResults.length == 0) {
-        textButtonDownloadCsv.innerText = ``;
-        buttonDownloadCsv?.setAttribute(
-          'style',
-          'background-color: rgba(245, 232, 233, 0.4);'
-        );
-      } else {
-        textButtonDownloadCsv.innerText = `(${this.listCheckedSearchResults.length})`;
-      }
     }
   }
 

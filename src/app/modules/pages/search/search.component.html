@@ -1,6 +1,8 @@
 <head>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-</head> 
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    rel="stylesheet">
+</head>
 
 <div fxLayout="column">
   <section class="bg-white-2" fxLayoutAlign="center" fxLayout="row">
@@ -96,7 +98,7 @@
               [checked]="isAllSelected()"
               (change)="checkAll()" />Selecionar Todos
           </label>
-          
+
           <button class="btn-download" (click)="downloadCSV()"
             name="botaoDownloadCSV">
             <mat-icon>cloud_download</mat-icon>
@@ -125,7 +127,6 @@
           <div fxLayout="column" class="bg-white-2 result color-purple-1"
             fxLayoutGap="22px">
             <ng-container *ngFor="let text of gazette.excerpts">
-              
 
               <div [innerHTML]="formatText(text)" class="typo-inner"></div>
             </ng-container>
@@ -149,12 +150,10 @@
                 [style]="'secondary'"
                 (onSelected)="openFile($event)"
                 [options]="gazette.downloads"
-                [label]="'Baixar diário oficial'"
-              ></app-select>
-              
+                [label]="'Baixar diário oficial'"></app-select>
+
             </div>
           </div>
-          <!--terniar-->
         </pagination-template>
         <div fxLayout="row" fxFlexAlign="center" class="pagination-area">
           <a class="pagination-first-page" *ngIf="pagination.currentPage > 1">

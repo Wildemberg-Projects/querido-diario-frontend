@@ -14,8 +14,6 @@ import { Territory } from 'src/app/interfaces/territory';
 import { GazetteService } from 'src/app/services/gazette/gazette.service';
 import { TerritoryService } from 'src/app/services/territory/territory.service';
 
-export var listCheckedSearchResults: Array<SearchResultCSV> = [];
-
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -47,6 +45,8 @@ export class SearchComponent implements OnInit {
   gazetteResponse: GazetteResponse | null = null;
 
   pagination: Pagination = { itemsPerPage: 10, currentPage: 1 };
+
+  listCheckedSearchResults: Array<SearchResultCSV> = [];
 
   level$: Observable<Level | null> = of(null);
 
@@ -130,6 +130,7 @@ export class SearchComponent implements OnInit {
         .pipe(take(1))
         .subscribe(
           (res) => {
+            this.listCheckedSearchResults = [];
             this.gazetteResponse = res;
             let pagination: Pagination = this.pagination;
             const totalItems = Math.ceil(res.total_gazettes / 10);
@@ -167,6 +168,7 @@ export class SearchComponent implements OnInit {
   }
 
   orderChanged(sort_by: string) {
+    this.listCheckedSearchResults = [];
     const queryParams = this.route.snapshot.queryParams;
     this.router.navigate(['/pesquisa'], {
       queryParams: { ...queryParams, sort_by },
@@ -208,40 +210,42 @@ export class SearchComponent implements OnInit {
       url_arquivo_original: gazette.url,
     };
 
-    let indexOfSelectedGazette = listCheckedSearchResults.findIndex(
+    let indexOfSelectedGazette = this.listCheckedSearchResults.findIndex(
       (gazette) => gazette.id == selectedGazette.id
     );
 
     if (indexOfSelectedGazette == -1) {
-      if (listCheckedSearchResults.length == 0)
+      if (this.listCheckedSearchResults.length == 0)
         buttonDownloadCsv?.setAttribute(
           'style',
           'background-color: #FF8500; cursor: pointer;'
         );
 
-      listCheckedSearchResults.push(selectedGazette);
+      this.listCheckedSearchResults.push(selectedGazette);
 
-      textButtonDownloadCsv.innerText = `(${listCheckedSearchResults.length})`;
+      textButtonDownloadCsv.innerText = `(${this.listCheckedSearchResults.length})`;
     } else {
-      listCheckedSearchResults.splice(indexOfSelectedGazette, 1);
+      this.listCheckedSearchResults.splice(indexOfSelectedGazette, 1);
       checkboxSelectAll.checked = false;
 
-      if (listCheckedSearchResults.length == 0) {
+      if (this.listCheckedSearchResults.length == 0) {
         textButtonDownloadCsv.innerText = ``;
         buttonDownloadCsv?.setAttribute(
           'style',
           'background-color: rgba(245, 232, 233, 0.4);'
         );
       } else {
-        textButtonDownloadCsv.innerText = `(${listCheckedSearchResults.length})`;
+        textButtonDownloadCsv.innerText = `(${this.listCheckedSearchResults.length})`;
       }
     }
   }
 
   isSearchResultSelected(gazetteId: string) {
-    if (listCheckedSearchResults.length == 0) return false;
+    if (this.listCheckedSearchResults.length == 0) return false;
 
-    if (listCheckedSearchResults.find((gazette) => gazette.id == gazetteId))
+    if (
+      this.listCheckedSearchResults.find((gazette) => gazette.id == gazetteId)
+    )
       return true;
 
     return false;
@@ -267,7 +271,7 @@ export class SearchComponent implements OnInit {
     let downloadList: SearchResultCSV[] = [];
 
     // Removing Id before download
-    listCheckedSearchResults.map((selectedResult) => {
+    this.listCheckedSearchResults.map((selectedResult) => {
       let searchResult = {
         municipio: selectedResult.municipio,
         uf: selectedResult.uf,
@@ -339,12 +343,10 @@ export class SearchComponent implements OnInit {
         }
       }
     }
+  }
 
-    if (listCheckedSearchResults.length == 0) {
-      buttonDownloadCsv?.setAttribute(
-        'style',
-        'background-color: rgba(245, 232, 233, 0.4); cursor: default;'
-      );
-    }
+  get getQntSelected() {
+    if (this.listCheckedSearchResults.length == 0) return '';
+    return ` (${this.listCheckedSearchResults.length})`;
   }
 }

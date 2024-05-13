@@ -7,8 +7,6 @@ import { map, startWith } from 'rxjs/operators';
 import { Territory } from 'src/app/interfaces/territory';
 import { TerritoryService } from 'src/app/services/territory/territory.service';
 
-import { listCheckedSearchResults } from '../../pages/search/search.component';
-
 @Component({
   selector: 'app-search-form',
   templateUrl: './search-form.component.html',
@@ -121,7 +119,6 @@ export class SearchFormComponent implements OnInit {
   }
 
   search(): void {
-    this.clearCheckedSearchResults();
     let queryParams = {};
     const term = this.termField.nativeElement.value;
 
@@ -192,26 +189,6 @@ export class SearchFormComponent implements OnInit {
   ngOnDestroy() {
     for (let subscriptions of this.subscriptions) {
       subscriptions.unsubscribe();
-    }
-  }
-
-  clearCheckedSearchResults() {
-    listCheckedSearchResults.length = 0;
-
-    let buttonDownloadCsv = document.querySelector('.btn-download');
-    let textButtonDownloadCsv = buttonDownloadCsv?.querySelector('strong');
-    let checkFather = document.querySelector('#father');
-
-    if (textButtonDownloadCsv) {
-      textButtonDownloadCsv.innerText = ``;
-      buttonDownloadCsv?.setAttribute(
-        'style',
-        'background-color: rgba(245, 232, 233, 0.4);'
-      );
-
-      let b = checkFather as HTMLInputElement;
-
-      b.checked = false;
     }
   }
 }

@@ -30,6 +30,7 @@ export class SearchComponent implements OnInit {
     private gazetteService: GazetteService,
     private downloadCSVService: DownloadCSVService
   ) {}
+
   term: string | undefined = undefined;
   territoryId: string | undefined = undefined;
   cityName: string | null = null;
@@ -177,7 +178,7 @@ export class SearchComponent implements OnInit {
   }
 
   orderChanged(sort_by: string) {
-    this.listCheckedSearchResults = [];
+    this.downloadCSVService.clear();
     const queryParams = this.route.snapshot.queryParams;
     this.router.navigate(['/pesquisa'], {
       queryParams: { ...queryParams, sort_by },

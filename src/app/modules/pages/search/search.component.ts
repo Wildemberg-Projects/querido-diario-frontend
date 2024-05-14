@@ -14,6 +14,8 @@ import { Territory } from 'src/app/interfaces/territory';
 import { GazetteService } from 'src/app/services/gazette/gazette.service';
 import { TerritoryService } from 'src/app/services/territory/territory.service';
 
+import { DownloadCSVService } from './../../../services/download-csv/download-csv.service';
+
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -25,7 +27,8 @@ export class SearchComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private territoryService: TerritoryService,
-    private gazetteService: GazetteService
+    private gazetteService: GazetteService,
+    private downloadCSVService: DownloadCSVService
   ) {}
   term: string | undefined = undefined;
   territoryId: string | undefined = undefined;
@@ -114,6 +117,12 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.downloadCSVService.getClearSearchResults().subscribe((clear) => {
+      if (clear) {
+        this.listCheckedSearchResults = [];
+      }
+    });
+
     this.route.queryParams.subscribe((params) => {
       if (params.sort_by) {
         this.sort_by = params.sort_by;

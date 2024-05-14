@@ -7,6 +7,8 @@ import { map, startWith } from 'rxjs/operators';
 import { Territory } from 'src/app/interfaces/territory';
 import { TerritoryService } from 'src/app/services/territory/territory.service';
 
+import { DownloadCSVService } from './../../../services/download-csv/download-csv.service';
+
 @Component({
   selector: 'app-search-form',
   templateUrl: './search-form.component.html',
@@ -51,7 +53,8 @@ export class SearchFormComponent implements OnInit {
   constructor(
     private territoryService: TerritoryService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private downloadCSVService: DownloadCSVService
   ) {}
 
   ngOnInit(): void {
@@ -145,6 +148,8 @@ export class SearchFormComponent implements OnInit {
     } else {
       queryParams = { ...queryParams, sort_by: null };
     }
+
+    this.downloadCSVService.clear();
 
     this.router.navigate(['/pesquisa'], { queryParams });
   }

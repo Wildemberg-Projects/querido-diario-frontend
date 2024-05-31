@@ -269,7 +269,7 @@ export class SearchComponent implements OnInit {
         uf: selectedResult.uf,
         excerto: selectedResult.excerto,
         data_publicacao: selectedResult.data_publicacao,
-        numero_edicao: selectedResult.numero_edicao || "Indefinido",
+        numero_edicao: selectedResult.numero_edicao || "",
         edicao_extra: selectedResult.edicao_extra,
         url_arquivo_txt: selectedResult.url_arquivo_txt,
         url_arquivo_original: selectedResult.url_arquivo_original,

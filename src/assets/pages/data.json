@@ -1,0 +1,9 @@
+{
+  "explore": {
+    "title": "Explore dados dos diários oficiais com todas as informações compactadas"
+  },
+  "dados": {
+    "title": "Dados",
+    "subtitle": "Abaixo, estão os resultados encontrados nos diários do município informado! Os dados estão organizados de maneira compactada e disponível para download!"
+  }
+}

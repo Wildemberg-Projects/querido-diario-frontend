@@ -113,6 +113,7 @@ import { TechComponent as TechComponentEnUS } from './modules/pages/tech-en_US/t
 import { PrivacyPolicyComponent as PrivacyPolicyComponentEnUS } from './modules/pages/privacy-policy-en_US/privacy-policy.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DataFormComponent } from './modules/components/data-form/data-form.component';
+import { StateFilterComponent } from './modules/pages/area-education/search/filters/state-filter/state-filter.component';
 
 @NgModule({
   declarations: [
@@ -193,6 +194,7 @@ import { DataFormComponent } from './modules/components/data-form/data-form.comp
     TechComponentEnUS,
     PrivacyPolicyComponentEnUS,
     DataFormComponent,
+    StateFilterComponent,
   ],
   imports: [
     BrowserModule,

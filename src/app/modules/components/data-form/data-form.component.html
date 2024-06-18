@@ -4,7 +4,9 @@
           [initialValue]="territory" 
           [loadingCities]="loadingCities"
           label="Estado" 
+
           class="state-input" 
+
           [cities]="getCityList()"
           [showCityLevel]="true"
           (changeLocations)="onChangeLocation($event)"
@@ -17,7 +19,9 @@
         [initialValue]="territory" 
         [loadingCities]="loadingCities"
         label="Município" 
+
         class="city-input" 
+        
         [cities]="getStateList()"
         [showCityLevel]="true"
         (changeLocations)="onChangeLocation($event)"

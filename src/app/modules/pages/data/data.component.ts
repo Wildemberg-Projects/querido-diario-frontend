@@ -8,7 +8,10 @@ import { ContentService } from 'src/app/services/content/content.service';
   styleUrls: ['./data.component.sass'],
 })
 export class DataComponent implements OnInit {
-  content$: Observable<any> = of(null);;
+  content$: Observable<any> = of(null);
+  isLoading = false;
+  hasSearched = false;
+  savedParams: string | undefined;
 
   constructor(private contentService: ContentService) {}
 
@@ -19,4 +22,10 @@ export class DataComponent implements OnInit {
   private loadContent() {
     this.content$ = this.contentService.find('data');
   }
+
+  getItems(currFilters: string, params?: string) {
+    this.isLoading = true;
+    this.hasSearched = true;
+  }
+
 }

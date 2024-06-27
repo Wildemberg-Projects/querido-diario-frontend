@@ -31,6 +31,7 @@ export class DataFormComponent implements OnInit {
   territory: string[] = [];
   cityListToInput: Territory[] = [];
   loadingCities = false;
+  loadingStates = false;
 
   @ViewChild('cityField') cityField!: ElementRef;
   @ViewChild('stateField') stateField!: ElementRef;

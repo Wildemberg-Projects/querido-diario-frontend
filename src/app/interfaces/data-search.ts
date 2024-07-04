@@ -15,8 +15,8 @@ export interface ResponseDataSearch{
 }
 
 export interface DataSearchQuery {
-  territory_id?: string | string[];
-  year?:string;
+  territory_id?: string;
+  state_code: string;
 }
 
 export enum DownloadsLabelsData {

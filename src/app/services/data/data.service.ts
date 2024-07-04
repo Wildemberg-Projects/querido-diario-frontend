@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { DataSearch, ResponseDataSearch, DataSearchQuery,DownloadData, DownloadsLabelsData } from 'src/app/interfaces/data-search';
 
+
 @Injectable({
   providedIn: 'root',
 })
@@ -40,25 +41,22 @@ export class DataSearchService {
   }
 
   findAll(query: DataSearchQuery): Observable<ResponseDataSearch> {
-    const { territory_id, year } = query;
-    let queryParams = {};
-    let territoryQuery = '';
+    const { territory_id, state_code } = query;
+    let queryParams: any = {};
 
-    if (territory_id && !Array.isArray(territory_id)) {
-      queryParams = { ...queryParams, territory_ids: territory_id };
-    } else if(territory_id && territory_id.length){
-      (territory_id as string[]).forEach(id => {
-        territoryQuery += '&territory_ids=' + id;
-      });
+    if (state_code && !territory_id) {
+        queryParams = { state_code: state_code };
+    } else {
+        queryParams = { territory_id: territory_id, state_code: state_code };
     }
 
-    if (year) {
-      queryParams = { ...queryParams, published_since: year };
+    let url: string;
+    if (Object.keys(queryParams).length === 0) {
+        url = new URL('/aggregate/to', 'http://0.0.0.0:8080').toString();
+    } else {
+        const encodedQueryString = new URLSearchParams(queryParams).toString();
+        url = new URL(`/aggregate/to?${encodedQueryString}`, 'http://0.0.0.0:8080').toString();
     }
-
-    //const encodedQueryString = new URLSearchParams(queryParams).toString();
-    const url = new URL(`/api/agregates?${territoryQuery}$`,
-    `https://queridodiario.ok.org.br`).toString();
 
     return this.http.get<ResponseDataSearch>(url).pipe(
       map((res: ResponseDataSearch) => {
@@ -70,5 +68,6 @@ export class DataSearchService {
         error: true,
       })),
     );
-  }
+}
+
 }

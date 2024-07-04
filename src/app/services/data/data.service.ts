@@ -26,7 +26,7 @@ export class DataSearchService {
     };
   }
 
-  resolveGazetteDownloadsData(data: DataSearch): DataSearch {
+  resolveDataSearchDownloads(data: DataSearch): DataSearch {
     const downloads: DownloadData[] = [];
     if (data.url_zip) {
       downloads.push({ value: data.url_zip, viewValue: DownloadsLabelsData.URL_ZIP})
@@ -35,8 +35,8 @@ export class DataSearchService {
     return { ...data, downloads }
   }
 
-  resolveGazettes(res: ResponseDataSearch): ResponseDataSearch {
-    const datas = res.datas.map((data: DataSearch) => this.resolveGazetteDownloadsData(data))
+  resolveDataSearch(res: ResponseDataSearch): ResponseDataSearch {
+    const datas = res.datas.map((data: DataSearch) => this.resolveDataSearchDownloads(data))
     return { ...res, datas }
   }
 
@@ -52,20 +52,20 @@ export class DataSearchService {
 
     let url: string;
     if (Object.keys(queryParams).length === 0) {
-        url = new URL('/aggregate/to', 'http://0.0.0.0:8080').toString();
+        url = new URL(`/aggregate/${state_code}`, 'http://0.0.0.0:8080').toString();
     } else {
         const encodedQueryString = new URLSearchParams(queryParams).toString();
-        url = new URL(`/aggregate/to?${encodedQueryString}`, 'http://0.0.0.0:8080').toString();
+        url = new URL(`/aggregate/${state_code}?${encodedQueryString}`, 'http://0.0.0.0:8080').toString();
     }
 
     return this.http.get<ResponseDataSearch>(url).pipe(
       map((res: ResponseDataSearch) => {
-        return this.resolveGazettes(res);
+        return this.resolveDataSearch(res);
       }),
       catchError(this.handleError<ResponseDataSearch>({
-        total_dataSearch: -1,
+        total_dataSearch: 0,
         datas: [],
-        error: true,
+        error: false,
       })),
     );
 }

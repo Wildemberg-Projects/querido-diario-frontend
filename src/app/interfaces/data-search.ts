@@ -2,13 +2,14 @@ export interface DataSearch {
   territory_id: string;
   url_zip: string;
   year: number;
-  last_update: string;
+  last_updated: string;
+  created_at: string;
   hash_info: string;
   file_size: string;
-  downloads: DownloadData[]
+  downloads: DownloadData[];
 }
 
-export interface ResponseDataSearch{
+export interface ResponseDataSearch {
   total_dataSearch: number;
   datas: DataSearch[];
   error?: boolean;
@@ -21,10 +22,10 @@ export interface DataSearchQuery {
 }
 
 export enum DownloadsLabelsData {
-  URL_ZIP = 'Baixar XML'
+  URL_ZIP = 'Baixar XML',
 }
 
 export interface DownloadData {
   value: string;
-  viewValue: DownloadsLabelsData,
+  viewValue: DownloadsLabelsData;
 }

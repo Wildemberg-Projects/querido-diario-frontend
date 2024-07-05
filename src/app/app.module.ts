@@ -197,6 +197,7 @@ import { DataCityFilterComponent } from './modules/pages/data/filters/city-filte
     DataFormComponent,
     DataSearchComponent,
     DataCityFilterComponent,
+    AggregateDataComponent,
   ],
   imports: [
     BrowserModule,

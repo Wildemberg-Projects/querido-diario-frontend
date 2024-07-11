@@ -15,6 +15,7 @@ export interface ResponseDataSearch {
 
 export interface DataSearchResults {
   results: ResponseDataSearch[];
+  error?: Error
 }
 
 export interface DataSearchQuery {

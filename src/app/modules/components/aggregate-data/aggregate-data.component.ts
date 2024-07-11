@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DataSearch, ResponseDataSearch } from 'src/app/interfaces/data-search';
+import { Aggregate, ResponseDataSearch } from 'src/app/interfaces/data-search';
 import { TerritoryService } from 'src/app/services/territory/territory.service';
 
 @Component({
@@ -22,26 +22,26 @@ export class AggregateDataComponent implements OnInit {
   }
 
   loadTerritories() {
-    this.dataSearchResponse?.datas.forEach((data) => {
+    this.dataSearchResponse?.aggregates.forEach((aggregate) => {
       let territory: any = {};
-      territory[data.year] = data;
+      territory[aggregate.year] = aggregate;
 
       this.territoryService
-        .findOne({ territoryId: data.territory_id })
+        .findOne({ territoryId: aggregate.territory_id })
         .subscribe((response) => {
-          this.territoriesData[data.territory_id] = {
-            ...this.territoriesData[data.territory_id],
+          this.territoriesData[aggregate.territory_id] = {
+            ...this.territoriesData[aggregate.territory_id],
             ...territory,
             territory_name: response.territory_name,
           };
         });
-      if (!this.territoryYears[data.territory_id]) {
-        this.territoryYears[data.territory_id] = [];
+      if (!this.territoryYears[aggregate.territory_id]) {
+        this.territoryYears[aggregate.territory_id] = [];
       }
-      this.territoryYears[data.territory_id]?.push(data.year);
+      this.territoryYears[aggregate.territory_id]?.push(aggregate.year);
 
-      if (!this.territories.includes(data.territory_id)) {
-        this.territories.push(data.territory_id);
+      if (!this.territories.includes(aggregate.territory_id)) {
+        this.territories.push(aggregate.territory_id);
       }
     });
   }
@@ -74,7 +74,7 @@ export class AggregateDataComponent implements OnInit {
     return selectedYear?.textContent;
   }
 
-  getSelectedYearData(territoryId: string): DataSearch | null {
+  getSelectedYearData(territoryId: string): Aggregate | null {
     if (!this.territoriesData[territoryId]) {
       return null;
     }

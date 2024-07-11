@@ -1,31 +1,24 @@
-export interface DataSearch {
+export interface Aggregate {
   territory_id: string;
   url_zip: string;
   year: number;
   last_updated: string;
-  created_at: string;
   hash_info: string;
   file_size: string;
-  downloads: DownloadData[];
 }
 
 export interface ResponseDataSearch {
-  total_dataSearch: number;
-  datas: DataSearch[];
-  error?: boolean;
+  state_code: string;
+  territory_id: string;
+  aggregates: Aggregate[];
+}
+
+export interface DataSearchResults {
+  results: ResponseDataSearch[];
 }
 
 export interface DataSearchQuery {
   territory_id?: string;
   state_code: string;
   sort_by?: string;
-}
-
-export enum DownloadsLabelsData {
-  URL_ZIP = 'Baixar XML',
-}
-
-export interface DownloadData {
-  value: string;
-  viewValue: DownloadsLabelsData;
 }

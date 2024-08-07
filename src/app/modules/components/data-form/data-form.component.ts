@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { Territory } from 'src/app/interfaces/territory';
 import { TerritoryService } from 'src/app/services/territory/territory.service';
 import { States } from 'src/app/interfaces/state';
+import { City } from 'src/app/interfaces/city';
 
 @Component({
   selector: 'app-data-form',
@@ -38,8 +39,8 @@ export class DataFormComponent implements OnInit {
 
   subscriptions: Subscription[] = [];
 
-  cityQuery: string[] = [];
-  stateQuery: string[] = [];
+  cityQuery: City | null = null;
+  stateQuery: string | null = null;
 
   constructor(
     private territoryService: TerritoryService,
@@ -159,29 +160,29 @@ export class DataFormComponent implements OnInit {
   search(): void {
     let queryParams = {};
 
-    if (this.stateQuery && this.stateQuery.length) {
-      queryParams = { ...queryParams, state: this.stateQuery };
-    } else {
-      queryParams = { ...queryParams, state: null };
+    if (this.stateQuery) {
+      queryParams = { ...queryParams, state_code: this.stateQuery };
+    }else{
+      queryParams = { ...queryParams, state_code:null}
     }
 
-    if (this.cityQuery && this.cityQuery.length) {
-      queryParams = { ...queryParams, city: this.cityQuery };
-    } else {
-      queryParams = { ...queryParams, city: null };
+    if (this.cityQuery) {
+      queryParams = { ...queryParams, state_code:this.cityQuery.state_code, territory_id:this.cityQuery.territory_id };
     }
 
     this.searched.emit(true);
 
     this.router.navigate(['/dados'], { queryParams });
+    console.log(queryParams)
   }
 
-  onChangeCity(locations: string[]) {
-    this.cityQuery = locations;
+  onChangeCity(location: City) {
+    console.log(location)
+    this.cityQuery = location;
   }
 
-  onChangeState(states: string[]) {
-    this.stateQuery = states;
+  onChangeState(state: string) {
+    this.stateQuery = state;
   }
 
   onChangeQuery(query: string) {

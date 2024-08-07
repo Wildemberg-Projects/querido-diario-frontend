@@ -18,8 +18,8 @@ export class DataCityFilterComponent implements OnChanges {
   showPlaceholder = true;
   query = '';
   uniqueCities: City[] = [];
-  @Input() initialValue: string[] = [];
-  @Output() changeLocations: EventEmitter<string[]> = new EventEmitter();
+  @Input() initialValue: Object | null = null;
+  @Output() changeLocations: EventEmitter<City> = new EventEmitter();
   @Output() changeQuery: EventEmitter<string> = new EventEmitter();
 
   constructor(
@@ -61,9 +61,9 @@ export class DataCityFilterComponent implements OnChanges {
 
   emitLocations() {
     if (this.selectedCities) {
-      this.changeLocations.emit([this.selectedCities.territory_id]);
+      this.changeLocations.emit(this.selectedCities);
     } else {
-      this.changeLocations.emit([]);
+      this.changeLocations.emit(undefined);
     }
   }
 
@@ -110,10 +110,5 @@ export class DataCityFilterComponent implements OnChanges {
         this.uniqueCities.push(city);
       }
     });
-
-    if(this.initialValue && this.initialValue.length) {
-      this.selectedCities = this.uniqueCities.find(city => this.initialValue.includes(city.territory_id)) || null;
-      this.showPlaceholder = !this.selectedCities;
-    }
   }
 }

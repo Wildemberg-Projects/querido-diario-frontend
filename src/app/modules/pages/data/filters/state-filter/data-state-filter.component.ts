@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { States } from 'src/app/interfaces/state';
+import { States, states } from 'src/app/interfaces/state';
 
 @Component({
   selector: 'data-state-filter',
@@ -7,19 +7,16 @@ import { States } from 'src/app/interfaces/state';
   styleUrls: ['./data-state-filter.component.sass']
 })
 
-export class DataStateFilterComponent implements OnChanges {
-  @Input() states: States[] = [];
+export class DataStateFilterComponent {
+  @Input() states_form: States[] = [];
   @Input() label: string = 'Novo local...';
-  @Input() loadingStates = false;
-  @Input() showAll = false;
   showDropdown = false;
   isLoading = true;
   selectedStates: States | null = null;
   showPlaceholder = true;
   query = '';
-  uniqueStates: States[] = [];
-  @Input() initialValue: string[] = [];
-  @Output() changeLocations: EventEmitter<string[]> = new EventEmitter();
+  @Input() initialValue: string | null = null;
+  @Output() changeLocations: EventEmitter<string> = new EventEmitter();
   @Output() changeQuery: EventEmitter<string> = new EventEmitter();
 
   getText() {
@@ -58,9 +55,9 @@ export class DataStateFilterComponent implements OnChanges {
 
   emitLocations() {
     if (this.selectedStates) {
-      this.changeLocations.emit([this.selectedStates.state_code]);
+      this.changeLocations.emit(this.selectedStates.state_code);
     } else {
-      this.changeLocations.emit([]);
+      this.changeLocations.emit("");
     }
   }
 
@@ -89,8 +86,8 @@ export class DataStateFilterComponent implements OnChanges {
   }
 
   getStatesList() {
-    if (this.query.length >= 2 || this.showAll) {
-      return States.filter(state =>
+    if (this.query.length) {
+      return states.filter(state =>
         state.name.toLowerCase().includes(this.query.toLowerCase().trim()) ||
         state.state_code.toLowerCase().includes(this.query.toLowerCase().trim())
       ).sort((a, b) => a.name.localeCompare(b.name)).slice(0, 100);
@@ -98,20 +95,4 @@ export class DataStateFilterComponent implements OnChanges {
     return [];
   }
 
-  ngOnChanges(): void {
-    if(this.states && this.states.length) {
-      this.isLoading = false;
-    }
-    this.uniqueStates = [];
-    this.states.forEach(state => {
-      if(!this.uniqueStates.find(uniqueState => state.state_code === uniqueState.state_code)) {
-        this.uniqueStates.push(state);
-      }
-    });
-
-    if(this.initialValue && this.initialValue.length) {
-      this.selectedStates = this.uniqueStates.find(state => this.initialValue.includes(state.state_code)) || null;
-      this.showPlaceholder = !this.selectedStates;
-    }
-  }
 }

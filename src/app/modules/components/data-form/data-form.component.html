@@ -2,12 +2,10 @@
   <app-row [flex]="true" [gap]="16">
     <data-state-filter
       [initialValue]="stateQuery"
-      [loadingStates]="loadingStates"
       label="Estado"
       class="state-input"
-      [states]="getStateList()"
       (changeLocations)="onChangeState($event)"
-      (changeQuery)="onChangeQuery($event)">
+    >
     </data-state-filter>
 
     <data-city-filter
